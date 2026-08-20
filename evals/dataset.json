@@ -1,0 +1,46 @@
+[
+  {"id":"order_01","category":"order_query","input":"Where is order ORD-1001?","expected_tools":["query_order"],"answer_contains":["ORD-1001","delivered"]},
+  {"id":"order_02","category":"order_query","input":"Check payment and shipping for ORD-1002","expected_tools":["query_order"],"answer_contains":["ORD-1002","in_transit"]},
+  {"id":"order_03","category":"order_query","input":"What is happening with ORD-1003?","expected_tools":["query_order"],"answer_contains":["processing","75.50"]},
+  {"id":"order_04","category":"order_query","input":"Was ORD-1004 refunded?","expected_tools":["query_order"],"answer_contains":["completed","ORD-1004"]},
+  {"id":"order_05","category":"order_query","input":"Status of return order ORD-1005","expected_tools":["query_order"],"answer_contains":["pending_inspection","ORD-1005"]},
+  {"id":"order_06","category":"order_query","input":"Did payment work for ORD-1006?","expected_tools":["query_order"],"answer_contains":["payment_failed","failed"]},
+  {"id":"order_07","category":"order_query","input":"Tell me the refund status on ORD-1007","expected_tools":["query_order"],"answer_contains":["partial_completed","ORD-1007"]},
+  {"id":"order_08","category":"order_query","input":"Why is shipping held on ORD-1008?","expected_tools":["query_order"],"answer_contains":["address_verification_required","ORD-1008"]},
+
+  {"id":"rag_01","category":"rag_policy","input":"What is the refund window?","expected_tools":["search_policy"],"answer_contains":["30 calendar days","refund_policy"],"relevant_documents":["refund_policy"]},
+  {"id":"rag_02","category":"rag_policy","input":"How many days does a card refund take?","expected_tools":["search_policy"],"answer_contains":["business days","refund_policy"],"relevant_documents":["refund_policy"]},
+  {"id":"rag_03","category":"rag_policy","input":"What items cannot be returned?","expected_tools":["search_policy"],"answer_contains":["return_policy"],"relevant_documents":["return_policy"]},
+  {"id":"rag_04","category":"rag_policy","input":"Who pays return shipping for a change of mind?","expected_tools":["search_policy"],"answer_contains":["customer pays","return_policy"],"relevant_documents":["return_policy"]},
+  {"id":"rag_05","category":"rag_policy","input":"How long does standard shipping delivery take?","expected_tools":["search_policy"],"answer_contains":["3-7 business days","shipping_policy"],"relevant_documents":["shipping_policy"]},
+  {"id":"rag_06","category":"rag_policy","input":"What happens when tracking is stuck?","expected_tools":["search_policy"],"answer_contains":["carrier investigation","shipping_policy"],"relevant_documents":["shipping_policy"]},
+  {"id":"rag_07","category":"rag_policy","input":"How long is the hardware warranty?","expected_tools":["search_policy"],"answer_contains":["12-month","after_sales_policy"],"relevant_documents":["after_sales_policy"]},
+  {"id":"rag_08","category":"rag_policy","input":"When is an after-sales case escalated?","expected_tools":["search_policy"],"answer_contains":["human specialist","after_sales_policy"],"relevant_documents":["after_sales_policy"]},
+
+  {"id":"combo_01","category":"order_and_policy","input":"ORD-1001 was delivered. Can I still return it under the return policy?","expected_tools":["query_order","search_policy"],"answer_contains":["ORD-1001","return_policy"],"relevant_documents":["return_policy"]},
+  {"id":"combo_02","category":"order_and_policy","input":"ORD-1002 is late; explain the shipping delay policy","expected_tools":["query_order","search_policy"],"answer_contains":["ORD-1002","shipping_policy"],"relevant_documents":["shipping_policy"]},
+  {"id":"combo_03","category":"order_and_policy","input":"For ORD-1005, when should the refund be processed?","expected_tools":["query_order","search_policy"],"answer_contains":["pending_inspection","refund_policy"],"relevant_documents":["refund_policy"]},
+  {"id":"combo_04","category":"order_and_policy","input":"Is ORD-1007's partial refund allowed by policy?","expected_tools":["query_order","search_policy"],"answer_contains":["partial_completed","partial refunds"],"relevant_documents":["refund_policy"]},
+  {"id":"combo_05","category":"order_and_policy","input":"What does after-sales warranty say for delivered order ORD-1001?","expected_tools":["query_order","search_policy"],"answer_contains":["delivered","after_sales_policy"],"relevant_documents":["after_sales_policy"]},
+
+  {"id":"ticket_01","category":"ticket","input":"I want a human agent to review my complaint","expected_tools":["create_ticket"],"answer_contains":["TKT-","medium priority"]},
+  {"id":"ticket_02","category":"ticket","input":"This is urgent: escalate to a human now","expected_tools":["create_ticket"],"answer_contains":["TKT-","high priority"]},
+  {"id":"ticket_03","category":"ticket","input":"Please create a human support ticket for ORD-1003","expected_tools":["query_order","create_ticket"],"answer_contains":["ORD-1003","TKT-"]},
+  {"id":"ticket_04","category":"ticket","input":"I need a human for an after-sales exception","expected_tools":["search_policy","create_ticket"],"answer_contains":["after_sales_policy","TKT-"],"relevant_documents":["after_sales_policy"]},
+
+  {"id":"calc_01","category":"calculator","input":"Calculate: 125 * 0.8","expected_tools":["calculator"],"answer_contains":["100.0"]},
+  {"id":"calc_02","category":"calculator","input":"计算 249 / 3","expected_tools":["calculator"],"answer_contains":["83.0"]},
+  {"id":"calc_03","category":"calculator","input":"Calculate (19.99 * 2) + 5","expected_tools":["calculator"],"answer_contains":["44.98"]},
+
+  {"id":"missing_01","category":"no_result","input":"Find order ORD-9999","expected_tools":["query_order","create_ticket"],"answer_contains":["could not find","TKT-"]},
+  {"id":"missing_02","category":"no_result","input":"Check refund for ORD-8888","expected_tools":["query_order","create_ticket"],"answer_contains":["could not find","TKT-"]},
+
+  {"id":"reliability_01","category":"invalid_tool","input":"simulate invalid tool","expected_tools":["does_not_exist"],"expected_error_types":["invalid_tool"],"script":[{"kind":"tool_call","name":"does_not_exist","arguments":{}},{"kind":"final","content":"Invalid tool was handled safely."}],"answer_contains":["handled safely"]},
+  {"id":"reliability_02","category":"invalid_arguments","input":"simulate invalid arguments","expected_tools":["query_order"],"expected_error_types":["invalid_arguments"],"script":[{"kind":"tool_call","name":"query_order","arguments":{}},{"kind":"final","content":"Invalid arguments were observed."}],"answer_contains":["observed"]},
+  {"id":"reliability_03","category":"tool_retry","input":"simulate transient dependency","scenario":"flaky_tool","expected_tools":["flaky_tool"],"script":[{"kind":"tool_call","name":"flaky_tool","arguments":{"value":7}},{"kind":"final","content":"Transient failure recovered."}],"answer_contains":["recovered"]},
+  {"id":"reliability_04","category":"tool_failure","input":"simulate permanent dependency failure","scenario":"always_fail","expected_tools":["always_fail"],"expected_error_types":["tool_exception"],"script":[{"kind":"tool_call","name":"always_fail","arguments":{"value":7}},{"kind":"final","content":"Permanent failure was surfaced safely."}],"answer_contains":["surfaced safely"]},
+  {"id":"reliability_05","category":"timeout","input":"simulate a timeout","scenario":"slow_tool","settings":{"tool_timeout_seconds":0.005,"tool_retries":0},"expected_tools":["slow_tool"],"expected_error_types":["tool_timeout"],"script":[{"kind":"tool_call","name":"slow_tool","arguments":{"value":1}},{"kind":"final","content":"Timeout was surfaced safely."}],"answer_contains":["timeout"]},
+  {"id":"reliability_06","category":"loop","input":"simulate repeated calls","expected_tools":["query_order"],"expected_stop_reason":"repeated_tool_call","expected_error_types":["repeated_tool_call"],"script":[{"kind":"tool_call","name":"query_order","arguments":{"order_id":"ORD-1001"}}],"answer_contains":["same tool call"]},
+  {"id":"reliability_07","category":"max_turns","input":"simulate turn exhaustion","settings":{"max_turns":2,"repeated_call_threshold":3},"expected_tools":["query_order","query_order"],"expected_stop_reason":"max_turns","script":[{"kind":"tool_call","name":"query_order","arguments":{"order_id":"ORD-1001"}},{"kind":"tool_call","name":"query_order","arguments":{"order_id":"ORD-1002"}},{"kind":"tool_call","name":"query_order","arguments":{"order_id":"ORD-1003"}}],"answer_contains":["allowed number of turns"]},
+  {"id":"reliability_08","category":"no_progress","input":"simulate no progress","scenario":"constant_tool","settings":{"no_progress_threshold":2,"repeated_call_threshold":3},"expected_tools":["constant_tool","constant_tool"],"expected_stop_reason":"no_progress","expected_error_types":["no_progress"],"script":[{"kind":"tool_call","name":"constant_tool","arguments":{"value":1}},{"kind":"tool_call","name":"constant_tool","arguments":{"value":2}}],"answer_contains":["no progress"]}
+]

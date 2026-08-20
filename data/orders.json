@@ -1,0 +1,97 @@
+[
+  {
+    "order_id": "ORD-1001",
+    "customer_id": "CUST-201",
+    "order_status": "delivered",
+    "payment_status": "paid",
+    "shipping_status": "delivered",
+    "refund_status": "not_requested",
+    "amount": 129.90,
+    "currency": "USD",
+    "created_at": "2026-07-01T08:20:00Z",
+    "shipped_at": "2026-07-02T03:10:00Z",
+    "delivered_at": "2026-07-05T11:42:00Z"
+  },
+  {
+    "order_id": "ORD-1002",
+    "customer_id": "CUST-202",
+    "order_status": "shipped",
+    "payment_status": "paid",
+    "shipping_status": "in_transit",
+    "refund_status": "not_requested",
+    "amount": 249.00,
+    "currency": "USD",
+    "created_at": "2026-08-12T09:00:00Z",
+    "shipped_at": "2026-08-13T01:30:00Z",
+    "estimated_delivery": "2026-08-19"
+  },
+  {
+    "order_id": "ORD-1003",
+    "customer_id": "CUST-203",
+    "order_status": "processing",
+    "payment_status": "paid",
+    "shipping_status": "not_shipped",
+    "refund_status": "not_requested",
+    "amount": 75.50,
+    "currency": "USD",
+    "created_at": "2026-08-16T16:15:00Z"
+  },
+  {
+    "order_id": "ORD-1004",
+    "customer_id": "CUST-204",
+    "order_status": "cancelled",
+    "payment_status": "refunded",
+    "shipping_status": "not_shipped",
+    "refund_status": "completed",
+    "amount": 49.99,
+    "currency": "USD",
+    "created_at": "2026-08-02T04:40:00Z",
+    "refund_completed_at": "2026-08-04T07:12:00Z"
+  },
+  {
+    "order_id": "ORD-1005",
+    "customer_id": "CUST-205",
+    "order_status": "return_in_progress",
+    "payment_status": "paid",
+    "shipping_status": "returning_to_warehouse",
+    "refund_status": "pending_inspection",
+    "amount": 310.00,
+    "currency": "USD",
+    "created_at": "2026-07-21T12:10:00Z",
+    "return_received_at": null
+  },
+  {
+    "order_id": "ORD-1006",
+    "customer_id": "CUST-206",
+    "order_status": "payment_failed",
+    "payment_status": "failed",
+    "shipping_status": "not_shipped",
+    "refund_status": "not_applicable",
+    "amount": 88.80,
+    "currency": "USD",
+    "created_at": "2026-08-15T02:03:00Z"
+  },
+  {
+    "order_id": "ORD-1007",
+    "customer_id": "CUST-207",
+    "order_status": "refunded",
+    "payment_status": "partially_refunded",
+    "shipping_status": "delivered",
+    "refund_status": "partial_completed",
+    "amount": 500.00,
+    "currency": "USD",
+    "refund_amount": 125.00,
+    "created_at": "2026-06-18T05:15:00Z"
+  },
+  {
+    "order_id": "ORD-1008",
+    "customer_id": "CUST-208",
+    "order_status": "on_hold",
+    "payment_status": "paid",
+    "shipping_status": "address_verification_required",
+    "refund_status": "not_requested",
+    "amount": 199.95,
+    "currency": "USD",
+    "created_at": "2026-08-14T13:32:00Z"
+  }
+]
