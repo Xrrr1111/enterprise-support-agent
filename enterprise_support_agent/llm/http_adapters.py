@@ -96,7 +96,7 @@ class OpenAICompatibleLLM:
 
 
 class OllamaLLM:
-    """Adapter for Ollama's native chat and function-calling endpoint."""
+    """Adapter for Ollama JSON-schema decisions, including models without native tools."""
 
     provider = "ollama"
 
@@ -104,13 +104,34 @@ class OllamaLLM:
         self.model = model
         self.base_url = base_url.rstrip("/")
         self.timeout_seconds = timeout_seconds
+        self.usage: list[dict[str, Any]] = []
 
     def decide(self, messages, tool_schemas, system_prompt) -> ModelDecision:  # type: ignore[no-untyped-def]
+        decision_schema = {
+            "type": "object",
+            "properties": {
+                "kind": {"type": "string", "enum": ["tool", "final"]},
+                "tool_name": {"type": "string"},
+                "arguments": {"type": "object"},
+                "content": {"type": "string"},
+            },
+            "required": ["kind", "tool_name", "arguments", "content"],
+            "additionalProperties": False,
+        }
+        control_prompt = (
+            f"{system_prompt}\n\n"
+            "Choose exactly one next action. Return JSON matching the response schema. "
+            "For kind=tool, select one supplied tool, put its valid arguments in arguments, and leave content empty. "
+            "For kind=final, leave tool_name empty and arguments empty. "
+            "Never answer order, policy, calculation, or ticket facts without first using the relevant tool.\n"
+            f"Available tools: {json.dumps(tool_schemas, ensure_ascii=False)}"
+        )
         payload = {
             "model": self.model,
             "stream": False,
-            "messages": [{"role": "system", "content": system_prompt}, *OpenAICompatibleLLM._messages(messages)],
-            "tools": tool_schemas,
+            "think": False,
+            "format": decision_schema,
+            "messages": [{"role": "system", "content": control_prompt}, *self._plain_messages(messages)],
             "options": {"temperature": 0},
         }
         request = Request(
@@ -124,9 +145,47 @@ class OllamaLLM:
                 result = json.load(response)
         except (HTTPError, URLError, TimeoutError, json.JSONDecodeError) as error:
             raise LLMError(f"Ollama request failed: {error}") from error
-        message = result.get("message", {})
-        tool_calls = message.get("tool_calls") or []
-        if tool_calls:
-            function = tool_calls[0].get("function", {})
-            return ModelDecision.call(str(function.get("name", "")), _parse_arguments(function.get("arguments", {})))
-        return ModelDecision.final(str(message.get("content", "")))
+        self.usage.append({'prompt_tokens': result.get('prompt_eval_count'), 'completion_tokens': result.get('eval_count'), 'duration_ns': result.get('total_duration')})
+        content = str(result.get("message", {}).get("content", ""))
+        try:
+            decision = json.loads(content)
+        except json.JSONDecodeError as error:
+            raise LLMError(f"Ollama returned invalid decision JSON: {error}") from error
+        if decision.get("kind") == "tool":
+            tool_name = str(decision.get("tool_name", ""))
+            arguments = _parse_arguments(decision.get("arguments", {}))
+            # Leave arguments intact: the Harness must reject extra parameters.
+            return ModelDecision.call(
+                tool_name,
+                arguments,
+            )
+        if decision.get("kind") == "final":
+            return ModelDecision.final(str(decision.get("content", "")))
+        raise LLMError("Ollama returned an unknown decision kind")
+
+    @staticmethod
+    def _plain_messages(messages: list[dict[str, Any]]) -> list[dict[str, str]]:
+        """Represent tool history as plain dialogue for models without native tool roles."""
+
+        translated: list[dict[str, str]] = []
+        for message in messages:
+            if message.get("role") == "assistant" and message.get("tool_call"):
+                call = message["tool_call"]
+                translated.append(
+                    {
+                        "role": "assistant",
+                        "content": "Previous tool action: " + json.dumps(call, ensure_ascii=False),
+                    }
+                )
+            elif message.get("role") == "tool":
+                translated.append(
+                    {
+                        "role": "user",
+                        "content": f"Tool observation from {message.get('name')}: {message.get('content', '')}",
+                    }
+                )
+            else:
+                translated.append(
+                    {"role": str(message.get("role", "user")), "content": str(message.get("content", ""))}
+                )
+        return translated

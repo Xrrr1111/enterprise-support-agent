@@ -1,5 +1,11 @@
 # Enterprise Support Agent
 
+## 2026-09 portfolio delivery
+
+[中文启动与演示](docs/DELIVERY.md) · [自动化与真实模型记录](reports/acceptance-20260907/live-run.json) · [开源归属](docs/ATTRIBUTION.md)
+
+This personal project uses Codex-assisted development. The delivery adds actual image/scanned-PDF OCR, optional pretrained multilingual embeddings, source-aware document management and a lightweight web UI. Business records are synthetic.
+
 An inspectable, provider-neutral customer-support agent that resolves order and policy questions through a real multi-turn tool loop, escalates unresolved cases, produces structured traces, and measures itself with a reproducible 38-task evaluation suite.
 
 The default mode is fully local and deterministic: no API key, hosted vector database, or paid model is required. OpenAI-compatible and Ollama adapters are included for real LLM use.
@@ -102,7 +108,7 @@ sequenceDiagram
 |---|---|---|---|
 | `query_order` | `order_id: string` | found flag or verified order fields | operational source of truth |
 | `search_policy` | `query: string`, `top_k: 1..10`, optional category enum | ranked chunks, scores, sources, context | policy evidence via local RAG |
-| `create_ticket` | request, reason, priority enum | generated ticket ID, status, UTC timestamp | durable human escalation |
+| `create_ticket` | request, reason, priority enum, idempotency key | generated ticket ID, status, UTC timestamp | deduplicated durable human escalation |
 | `calculator` | `expression: string` | expression and numeric result | deterministic arithmetic |
 
 Schemas are defined once in [`tools/schemas.py`](enterprise_support_agent/tools/schemas.py), sent to the model through the registry, and enforced again inside the harness. Extra fields, missing values, wrong types, invalid enums, and out-of-range values fail before business code runs.
@@ -208,7 +214,7 @@ Add `--json` to inspect the complete state. More annotated transcripts are in [`
 ├── evals/
 │   ├── dataset.json       # 38 tasks
 │   └── evaluate.py
-├── tests/                 # 41 pytest cases
+├── tests/                 # 51 pytest cases
 ├── reports/               # checked-in example JSON and Markdown eval reports
 ├── docs/demo.md
 ├── .github/workflows/ci.yml # Python 3.11/3.12 test and eval gate
@@ -248,7 +254,7 @@ python -m pip install -e ".[dev]"
 python -m pytest -q
 ```
 
-Runtime code itself uses only the Python standard library. Development dependencies are pinned by compatible ranges in `requirements.txt` and `pyproject.toml`.
+Runtime dependencies cover PDF parsing, image handling, and local OCR; compatible ranges are declared in `requirements.txt` and `pyproject.toml`.
 
 ## 14. Usage and Model Providers
 
@@ -271,7 +277,7 @@ Ollama mode:
 
 ```bash
 export ESA_LLM_PROVIDER=ollama
-export ESA_LLM_MODEL=qwen3:8b
+export ESA_LLM_MODEL=deepseek-r1:8b
 python -m enterprise_support_agent "What is the return policy?"
 ```
 
@@ -280,19 +286,18 @@ Copy `.env.example` as a reference, but note that this dependency-free implement
 ## 15. Limitations
 
 - Order data is static JSON rather than an authenticated order-management API.
-- Tickets are append-only JSONL without identity, deduplication, assignment, or SLA workflows.
+- Tickets are append-only JSONL with idempotency-key deduplication, but without identity, assignment, or SLA workflows.
 - The local hashing retriever is appropriate for this small corpus, not large-scale semantic search.
 - Customer identity and order ownership are not verified; production use must authorize every lookup.
 - Thread-based timeouts cannot terminate already-running Python code.
 - The deterministic mock adapter provides reproducibility, but real-provider accuracy needs a separate recorded evaluation run.
-- There is no web UI, conversation persistence across processes, PII redaction, or prompt-injection policy layer yet.
+- The lightweight web UI is a single-process local demo; conversation persistence, PII redaction, and a prompt-injection policy layer are not included.
 
 ## 16. Future Work
 
 - Connect authenticated order, payment, logistics, and CRM APIs behind the existing tool contracts.
 - Add hybrid BM25/vector retrieval, a learned reranker, document versioning, and citation-level faithfulness checks.
 - Introduce customer identity, tenant boundaries, field-level authorization, PII redaction, and audit retention.
-- Add idempotency keys for ticket creation and side-effect confirmation policies.
 - Support parallel independent tool calls while preserving deterministic traces.
 - Record provider-specific eval baselines, cost, token use, calibration, and regression thresholds in CI.
 - Add OpenTelemetry spans and dashboards for model/tool latency and failure cohorts.
@@ -306,4 +311,4 @@ python -m evals.evaluate --min-task-success 1.0
 python -m enterprise_support_agent "For ORD-1002, explain the shipping policy"
 ```
 
-Current local verification: **41 tests passed** and **38 evaluation tasks executed**. The reports are artifacts of actual runs, not manually authored claims.
+Current local verification: **58 tests passed** and **38 evaluation tasks executed**. The reports are artifacts of actual runs, not manually authored claims. The evaluation uses Mock decisions, not live-model accuracy.

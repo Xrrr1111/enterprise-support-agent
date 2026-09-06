@@ -40,6 +40,7 @@ class Settings:
     tickets_path: Path = PROJECT_ROOT / "data" / "tickets.jsonl"
     logs_path: Path = PROJECT_ROOT / "logs"
     system_prompt_path: Path = PROJECT_ROOT / "prompts" / "system_prompt.txt"
+    knowledge_uploads_path: Path = PROJECT_ROOT / "data" / "knowledge_uploads"
 
     def __post_init__(self) -> None:
         if self.max_turns < 1:

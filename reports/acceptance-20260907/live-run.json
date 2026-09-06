@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-06T13:11:02.446769+00:00",
+  "mode": "real local model",
+  "model": "deepseek-r1:8b",
+  "sample_count": 1,
+  "api_cost_usd": 0,
+  "wall_seconds": 62.077,
+  "stop_reason": "completed",
+  "turn_count": 2,
+  "errors": [],
+  "scope": "One representative run, not a general accuracy benchmark. Local model API cost excludes hardware and electricity.",
+  "input": "Check order ORD-1002 and report its shipping status.",
+  "verified_order_match": true,
+  "data": "Synthetic orders; no enterprise customer system."
+}

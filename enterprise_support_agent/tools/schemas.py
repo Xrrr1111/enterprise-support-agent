@@ -34,8 +34,14 @@ CREATE_TICKET_SCHEMA = {
         "user_request": {"type": "string", "minLength": 2, "maxLength": 2000},
         "reason": {"type": "string", "minLength": 2, "maxLength": 500},
         "priority": {"type": "string", "enum": ["low", "medium", "high", "urgent"]},
+        "idempotency_key": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 128,
+            "description": "Stable unique key for this escalation request; reuse it only when retrying the same operation.",
+        },
     },
-    "required": ["user_request", "reason", "priority"],
+    "required": ["user_request", "reason", "priority", "idempotency_key"],
     "additionalProperties": False,
 }
 

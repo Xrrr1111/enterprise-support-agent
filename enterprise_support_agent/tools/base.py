@@ -17,6 +17,7 @@ class ToolDefinition:
     parameters: dict[str, Any]
     handler: Callable[..., dict[str, Any]]
     retryable_exceptions: tuple[type[BaseException], ...] = (OSError, TimeoutError)
+    idempotent: bool = True
 
     def as_llm_schema(self) -> dict[str, Any]:
         return {

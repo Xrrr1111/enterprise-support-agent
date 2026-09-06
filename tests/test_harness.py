@@ -77,3 +77,18 @@ def test_timeout_is_captured(tmp_path: Path) -> None:
     result = target.execute("slow", {"value": 1}, 1, trace)
     assert result.ok is False
     assert result.error_type == "tool_timeout"
+
+
+def test_non_idempotent_tool_is_never_retried(tmp_path: Path) -> None:
+    calls = {"count": 0}
+
+    def side_effect(value: int):
+        calls["count"] += 1
+        raise OSError("unknown outcome")
+
+    definition = ToolDefinition("side_effect", "", SCHEMA, side_effect, idempotent=False)
+    target, trace = harness(definition, tmp_path, retries=3)
+    result = target.execute("side_effect", {"value": 1}, 1, trace)
+    assert result.ok is False
+    assert result.attempts == 1
+    assert calls["count"] == 1

@@ -71,6 +71,24 @@ class AgentState:
         )
 
     def to_dict(self) -> dict[str, Any]:
+        sources: list[dict[str, Any]] = []
+        seen: set[tuple[str, int | None]] = set()
+        for observation in self.observations:
+            data = observation.get("data", {}) if isinstance(observation, dict) else {}
+            for result in data.get("results", []) if isinstance(data, dict) else []:
+                source = str(result.get("source") or result.get("document_id") or "")
+                page = result.get("page")
+                key = (source, page)
+                if source and key not in seen:
+                    seen.add(key)
+                    sources.append(
+                        {
+                            "source": source,
+                            "page": page,
+                            "document_id": result.get("document_id"),
+                            "score": result.get("score"),
+                        }
+                    )
         return {
             "trace_id": self.trace_id,
             "started_at": self.started_at,
@@ -83,4 +101,5 @@ class AgentState:
             "final_answer": self.final_answer,
             "stop_reason": self.stop_reason,
             "latency_ms": round(self.latency_ms, 3),
+            "sources": sources,
         }

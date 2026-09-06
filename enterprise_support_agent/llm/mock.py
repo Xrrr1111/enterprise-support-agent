@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import re
 from typing import Any
 
@@ -13,7 +14,7 @@ ORDER_PATTERN = re.compile(r"\b(?:ORD|ORDER)[-_]?\d{3,}\b", re.IGNORECASE)
 POLICY_TERMS = {
     "refund": ("refund", "退款", "退钱", "退费"),
     "return": ("return", "退货", "换货"),
-    "shipping": ("shipping", "delivery", "tracking", "carrier", "delay", "发货", "物流", "送达"),
+    "shipping": ("shipping", "delivery", "tracking", "carrier", "delay", "发货", "物流", "送达", "配送"),
     "after_sales": ("warranty", "after-sales", "售后", "保修", "维修"),
 }
 
@@ -68,7 +69,8 @@ class MockLLM:
             "can i", "allowed", "when should", "explain", "what does", "政策", "规定", "多久", "能否",
         )
         asks_policy = bool(categories) and (not order_match or any(term in lowered for term in policy_qualifiers))
-        if asks_policy and "search_policy" not in called:
+        asks_uploaded_knowledge = any(term in lowered for term in ("知识库", "资料", "文档", "knowledge base", "uploaded document"))
+        if (asks_policy or asks_uploaded_knowledge) and "search_policy" not in called:
             arguments: dict[str, Any] = {"query": user_text, "top_k": 3}
             if len(categories) == 1:
                 arguments["category"] = categories[0]
@@ -84,7 +86,12 @@ class MockLLM:
             priority = "high" if any(term in lowered for term in ("urgent", "紧急", "投诉")) else "medium"
             return ModelDecision.call(
                 "create_ticket",
-                {"user_request": user_text, "reason": reason, "priority": priority},
+                {
+                    "user_request": user_text,
+                    "reason": reason,
+                    "priority": priority,
+                    "idempotency_key": hashlib.sha256(user_text.strip().encode("utf-8")).hexdigest()[:20],
+                },
             )
 
         expression = self._extract_expression(user_text)

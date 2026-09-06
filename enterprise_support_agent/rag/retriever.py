@@ -7,7 +7,8 @@ from pathlib import Path
 from typing import Any
 
 from enterprise_support_agent.rag.chunker import Chunk, build_chunks
-from enterprise_support_agent.rag.embeddings import HashingEmbedder, cosine_similarity, tokenize
+from enterprise_support_agent.rag.embeddings import HashingEmbedder, create_embedder, cosine_similarity, tokenize
+from enterprise_support_agent.rag.knowledge_store import MultimodalKnowledgeStore
 
 
 @dataclass(frozen=True, slots=True)
@@ -28,11 +29,11 @@ class SearchResult:
 class PolicyRetriever:
     def __init__(self, knowledge_base: Path, embedder: HashingEmbedder | None = None) -> None:
         self.knowledge_base = knowledge_base
-        self.embedder = embedder or HashingEmbedder()
+        self.embedder = embedder or create_embedder()
         self.chunks: list[Chunk] = build_chunks(knowledge_base)
         self._vectors = [self.embedder.embed(chunk.text) for chunk in self.chunks]
 
-    def search(self, query: str, top_k: int = 3, category: str | None = None) -> dict[str, Any]:
+    def search(self, query: str, top_k: int = 3, category: str | None = None, min_score: float = 0.12) -> dict[str, Any]:
         expanded_query = self._expand_query(query)
         query_vector = self.embedder.embed(expanded_query)
         query_tokens = set(tokenize(expanded_query))
@@ -55,7 +56,7 @@ class PolicyRetriever:
                 )
             )
         ranked.sort(key=lambda item: item.score, reverse=True)
-        results = ranked[:top_k]
+        results = [item for item in ranked if item.score >= min_score][:top_k]
         return {
             "query": query,
             "top_k": top_k,
@@ -79,4 +80,33 @@ class PolicyRetriever:
             expansions.append("preference based return")
         if "warranty" in lowered:
             expansions.append("coverage limited warranty")
+        if any(term in lowered for term in ("配送", "物流", "发货", "送达")):
+            expansions.append("shipping delivery carrier")
+        if any(term in lowered for term in ("退款", "退钱", "退费")):
+            expansions.append("refund eligibility timing")
+        if any(term in lowered for term in ("退货", "换货")):
+            expansions.append("return window eligibility")
         return " ".join([query, *expansions])
+
+
+class CombinedKnowledgeRetriever:
+    """Merge versioned policy passages with user-managed multimodal knowledge."""
+
+    def __init__(self, policies: PolicyRetriever, uploads: MultimodalKnowledgeStore) -> None:
+        self.policies = policies
+        self.uploads = uploads
+
+    def search(self, query: str, top_k: int = 3, category: str | None = None) -> dict[str, Any]:
+        policy = self.policies.search(query=query, top_k=top_k, category=category)
+        uploaded = self.uploads.search(query, top_k=top_k)
+        results = [*policy["results"], *uploaded]
+        results.sort(key=lambda item: item["score"], reverse=True)
+        results = results[:top_k]
+        return {
+            "query": query,
+            "top_k": top_k,
+            "category": category,
+            "embedding_provider": self.uploads.embedder.provider,
+            "results": results,
+            "context": "\n\n".join(f"[{item['chunk_id']}] {item['text']}" for item in results),
+        }

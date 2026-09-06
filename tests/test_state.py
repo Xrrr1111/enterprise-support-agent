@@ -23,3 +23,21 @@ def test_state_serialization_and_compact_context() -> None:
     state.tool_history.append(ToolHistoryItem(1, "calculator", {"expression": "1+1"}, True, {}, 1.0, 1))
     assert state.to_dict()["errors"][0]["error_type"] == "sample"
     assert compact_context(state)["tools_used"] == ["calculator"]
+
+
+def test_state_serializes_unique_retrieval_sources() -> None:
+    state = AgentState.for_task("search")
+    state.observations.append(
+        {
+            "ok": True,
+            "data": {
+                "results": [
+                    {"source": "policy.pdf", "page": 2, "document_id": "doc-1", "score": 0.81},
+                    {"source": "policy.pdf", "page": 2, "document_id": "doc-1", "score": 0.81},
+                ]
+            },
+        }
+    )
+    assert state.to_dict()["sources"] == [
+        {"source": "policy.pdf", "page": 2, "document_id": "doc-1", "score": 0.81}
+    ]

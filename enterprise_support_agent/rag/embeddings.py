@@ -5,6 +5,9 @@ from __future__ import annotations
 import hashlib
 import math
 import re
+import os
+from pathlib import Path
+from functools import lru_cache
 from collections import Counter
 
 
@@ -51,3 +54,39 @@ class HashingEmbedder:
 
 def cosine_similarity(left: list[float], right: list[float]) -> float:
     return sum(a * b for a, b in zip(left, right, strict=True))
+
+
+class SemanticEmbedder:
+    """Multilingual MiniLM ONNX inference, masked mean pooling and L2 normalization."""
+    provider = 'multilingual-minilm-onnx'
+
+    def __init__(self, directory: str):
+        import onnxruntime as ort
+        from tokenizers import Tokenizer
+        root = Path(directory)
+        self.tokenizer = Tokenizer.from_file(str(root / 'tokenizer.json'))
+        self.tokenizer.enable_truncation(max_length=128)
+        options = ort.SessionOptions()
+        options.intra_op_num_threads = 2
+        self.session = ort.InferenceSession(str(root / 'onnx/model_quantized.onnx'), sess_options=options, providers=['CPUExecutionProvider'])
+
+    @lru_cache(maxsize=1024)
+    def embed(self, text: str) -> list[float]:
+        import numpy as np
+        tokens = self.tokenizer.encode(text)
+        inputs = {'input_ids': np.array([tokens.ids], dtype=np.int64), 'attention_mask': np.array([tokens.attention_mask], dtype=np.int64), 'token_type_ids': np.array([tokens.type_ids], dtype=np.int64)}
+        values = self.session.run(None, {item.name: inputs[item.name] for item in self.session.get_inputs()})[0]
+        mask = inputs['attention_mask'][..., None]
+        pooled = (values * mask).sum(axis=1) / mask.sum(axis=1).clip(min=1)
+        pooled /= np.linalg.norm(pooled, axis=1, keepdims=True).clip(min=1e-12)
+        return pooled[0].tolist()
+
+
+@lru_cache(maxsize=2)
+def _semantic(directory: str):
+    return SemanticEmbedder(directory)
+
+
+def create_embedder():
+    directory = os.getenv('ESA_EMBEDDING_MODEL_DIR', '').strip()
+    return _semantic(directory) if directory else HashingEmbedder()

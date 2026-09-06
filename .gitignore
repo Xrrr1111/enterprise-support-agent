@@ -12,6 +12,8 @@ dist/
 .idea/
 .vscode/
 data/tickets.jsonl
+data/knowledge_uploads/files/
+data/knowledge_uploads/index.json
 logs/*.log
 logs/trace_*.json
 logs/trace_*.jsonl

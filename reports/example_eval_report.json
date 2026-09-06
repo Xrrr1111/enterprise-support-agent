@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-17T13:35:15.382130+00:00",
+  "generated_at": "2026-09-06T09:18:56.392709+00:00",
   "dataset": "evals\\dataset.json",
   "model_provider": "mock_and_scripted_offline",
   "metrics": {
@@ -9,7 +9,7 @@
     "tool_call_success_rate": 0.9183673469387755,
     "average_turns": 2.236842105263158,
     "failure_rate": 0.07894736842105263,
-    "average_latency_ms": 0.9956578947368421,
+    "average_latency_ms": 1.504578947368421,
     "rag_recall_at_k": 1.0
   },
   "tasks": [
@@ -33,12 +33,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 1.139,
+      "latency_ms": 1.14,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "e25d0f1d0fce45358ad695c2ecf4c837"
+      "trace_id": "2dc48388f79f45d8b9e54070a5e07da0"
     },
     {
       "id": "order_02",
@@ -60,12 +60,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.478,
+      "latency_ms": 0.476,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "add8da96723d46deb284c15cadf6a51c"
+      "trace_id": "a81c2b8fe8854ebca8016e2674fa6552"
     },
     {
       "id": "order_03",
@@ -87,12 +87,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.512,
+      "latency_ms": 0.56,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "1546d4cfdf2a4cb9b424f43ffec67118"
+      "trace_id": "86221e4143b54207bd244879bb3ef826"
     },
     {
       "id": "order_04",
@@ -114,12 +114,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.409,
+      "latency_ms": 0.438,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "830dd5f727b3458e8d7e44f4dcf64609"
+      "trace_id": "741d37d9c1eb4b1b94b9a4beb1fe9dc0"
     },
     {
       "id": "order_05",
@@ -141,12 +141,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.454,
+      "latency_ms": 0.621,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "9f65b7965711484b99bc0f78814cddfc"
+      "trace_id": "0eda1a6e8be340c3947d7e185f44eede"
     },
     {
       "id": "order_06",
@@ -168,12 +168,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.438,
+      "latency_ms": 0.491,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "e8d1811dbbef4a9f8b5a1372695fba73"
+      "trace_id": "c6ad4dd88d1848309ef2631452615b9b"
     },
     {
       "id": "order_07",
@@ -195,12 +195,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.423,
+      "latency_ms": 0.48,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "d01046c101024a58bfe79be71aae7198"
+      "trace_id": "395ede1a4f4a4be1829ae4e791df2bca"
     },
     {
       "id": "order_08",
@@ -222,12 +222,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.438,
+      "latency_ms": 0.582,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "ba3c794849e7492b813c948bf2e6f160"
+      "trace_id": "93ca551b76f84693bf1d2ac954e4e985"
     },
     {
       "id": "rag_01",
@@ -249,14 +249,14 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.759,
+      "latency_ms": 0.965,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": 1.0,
       "retrieved_documents": [
         "refund_policy"
       ],
-      "trace_id": "4593201693d74bfe83c0e7e3ad2d52c0"
+      "trace_id": "6b26feb4f3e241748505ad9240c7af30"
     },
     {
       "id": "rag_02",
@@ -278,14 +278,14 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.613,
+      "latency_ms": 0.617,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": 1.0,
       "retrieved_documents": [
         "refund_policy"
       ],
-      "trace_id": "16fe2718de4e4683b77ce4eabdf1286c"
+      "trace_id": "0b878df852894de6901d6e724dccb43d"
     },
     {
       "id": "rag_03",
@@ -306,14 +306,14 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.572,
+      "latency_ms": 0.634,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": 1.0,
       "retrieved_documents": [
         "return_policy"
       ],
-      "trace_id": "4236396a5da54185b69ab744cbb44ff1"
+      "trace_id": "e45fa341c8c245fb919b4ed66ed3d63a"
     },
     {
       "id": "rag_04",
@@ -335,7 +335,7 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 1.091,
+      "latency_ms": 1.214,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": 1.0,
@@ -344,7 +344,7 @@
         "return_policy",
         "shipping_policy"
       ],
-      "trace_id": "dde19055b7724e8fa25a930f3eb99c1a"
+      "trace_id": "5c2553b9ea0449e89f07532a8b1a566f"
     },
     {
       "id": "rag_05",
@@ -366,14 +366,14 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.577,
+      "latency_ms": 0.651,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": 1.0,
       "retrieved_documents": [
         "shipping_policy"
       ],
-      "trace_id": "73baefd65b9244c896d7a2944067bd58"
+      "trace_id": "6d8c687872db47fe8ba297eb81e33de5"
     },
     {
       "id": "rag_06",
@@ -395,14 +395,14 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.593,
+      "latency_ms": 0.745,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": 1.0,
       "retrieved_documents": [
         "shipping_policy"
       ],
-      "trace_id": "db7531155cc34536a942a77786f9917a"
+      "trace_id": "a08c60c18e9c4884ae17f571ea0b2074"
     },
     {
       "id": "rag_07",
@@ -424,14 +424,14 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.628,
+      "latency_ms": 0.658,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": 1.0,
       "retrieved_documents": [
         "after_sales_policy"
       ],
-      "trace_id": "0fb99dfa634e428795e95687a542e3f6"
+      "trace_id": "309173a41ea94431813d2e22719ad08c"
     },
     {
       "id": "rag_08",
@@ -453,14 +453,14 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.718,
+      "latency_ms": 0.602,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": 1.0,
       "retrieved_documents": [
         "after_sales_policy"
       ],
-      "trace_id": "f59260b456ea406d92126144b3aec628"
+      "trace_id": "acf828d962674f12b8732fa162920b12"
     },
     {
       "id": "combo_01",
@@ -484,14 +484,14 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 3,
-      "latency_ms": 1.045,
+      "latency_ms": 1.399,
       "tool_calls": 2,
       "successful_tool_calls": 2,
       "rag_recall_at_k": 1.0,
       "retrieved_documents": [
         "return_policy"
       ],
-      "trace_id": "7487323a3c47413bad07719d06bba1f8"
+      "trace_id": "58074493ee11420fb5c9818ed7dbfc04"
     },
     {
       "id": "combo_02",
@@ -515,14 +515,14 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 3,
-      "latency_ms": 0.948,
+      "latency_ms": 1.297,
       "tool_calls": 2,
       "successful_tool_calls": 2,
       "rag_recall_at_k": 1.0,
       "retrieved_documents": [
         "shipping_policy"
       ],
-      "trace_id": "9bbce300bef74d578cca8c287c4b64b3"
+      "trace_id": "26718897ca73474d9aee48bf14255454"
     },
     {
       "id": "combo_03",
@@ -546,14 +546,14 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 3,
-      "latency_ms": 1.018,
+      "latency_ms": 1.078,
       "tool_calls": 2,
       "successful_tool_calls": 2,
       "rag_recall_at_k": 1.0,
       "retrieved_documents": [
         "refund_policy"
       ],
-      "trace_id": "c9194710a7944a7597e45faaed492fd5"
+      "trace_id": "85fe2c04812d421aa9a6cc12c3223fe8"
     },
     {
       "id": "combo_04",
@@ -577,14 +577,14 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 3,
-      "latency_ms": 1.091,
+      "latency_ms": 1.092,
       "tool_calls": 2,
       "successful_tool_calls": 2,
       "rag_recall_at_k": 1.0,
       "retrieved_documents": [
         "refund_policy"
       ],
-      "trace_id": "11581d2e4c7640c0b999a403a3a1088f"
+      "trace_id": "640796af5fa647a398ae2e1678e091e7"
     },
     {
       "id": "combo_05",
@@ -608,14 +608,14 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 3,
-      "latency_ms": 1.101,
+      "latency_ms": 1.135,
       "tool_calls": 2,
       "successful_tool_calls": 2,
       "rag_recall_at_k": 1.0,
       "retrieved_documents": [
         "after_sales_policy"
       ],
-      "trace_id": "120d0a2291b34580a4677bb22ec2c3cc"
+      "trace_id": "c788ba236a1b4150b721a712265b295e"
     },
     {
       "id": "ticket_01",
@@ -637,12 +637,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.779,
+      "latency_ms": 0.841,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "f317a46abbab4b6493cfaaa6672bb03a"
+      "trace_id": "59fb8ed73be948da87cf1aaf2213f32c"
     },
     {
       "id": "ticket_02",
@@ -664,12 +664,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.799,
+      "latency_ms": 6.059,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "9b485ec5cde24e02b8ca5526e48e3503"
+      "trace_id": "7295be6c8a9c4f6f9484cf785017ac93"
     },
     {
       "id": "ticket_03",
@@ -693,12 +693,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 3,
-      "latency_ms": 1.39,
+      "latency_ms": 5.963,
       "tool_calls": 2,
       "successful_tool_calls": 2,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "0db9d38b323d48b79b5d5ef1f8458c7b"
+      "trace_id": "84c9f2dba8794f5a9fdcdaa82f8cd2b6"
     },
     {
       "id": "ticket_04",
@@ -722,14 +722,14 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 3,
-      "latency_ms": 1.308,
+      "latency_ms": 6.424,
       "tool_calls": 2,
       "successful_tool_calls": 2,
       "rag_recall_at_k": 1.0,
       "retrieved_documents": [
         "after_sales_policy"
       ],
-      "trace_id": "f87e66b4685f404b9aedc83b72fac37a"
+      "trace_id": "ee695084f51d45bb8de96ed83bfef233"
     },
     {
       "id": "calc_01",
@@ -750,12 +750,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.356,
+      "latency_ms": 0.369,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "b7d0a9e759f745c3a7e14a1e419c12d6"
+      "trace_id": "7908e476c6134766bb66794b084b0d7e"
     },
     {
       "id": "calc_02",
@@ -776,12 +776,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.377,
+      "latency_ms": 0.356,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "573afb6f11984b6f818c92ab4239c429"
+      "trace_id": "ad7ba7f409d844e38a1f07b6fcee920b"
     },
     {
       "id": "calc_03",
@@ -802,12 +802,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.291,
+      "latency_ms": 0.463,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "477a96d72b234059a242dffde47b54b4"
+      "trace_id": "ee4949ba44a044938eaeef49121c2d72"
     },
     {
       "id": "missing_01",
@@ -831,12 +831,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 3,
-      "latency_ms": 1.214,
+      "latency_ms": 6.902,
       "tool_calls": 2,
       "successful_tool_calls": 2,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "b22d790c879f42b5a10f9bf55a151ac6"
+      "trace_id": "25fd9c484e2c4486b6d0e3f64e10e92d"
     },
     {
       "id": "missing_02",
@@ -860,12 +860,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 3,
-      "latency_ms": 1.127,
+      "latency_ms": 5.61,
       "tool_calls": 2,
       "successful_tool_calls": 2,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "cd9efd99240e4381a53a494532e4dcc4"
+      "trace_id": "78b07fbc2ace4dfaa269051e323f1393"
     },
     {
       "id": "reliability_01",
@@ -890,12 +890,12 @@
         "invalid_tool"
       ],
       "turns": 2,
-      "latency_ms": 0.054,
+      "latency_ms": 0.058,
       "tool_calls": 1,
       "successful_tool_calls": 0,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "99e3be9d2ced42fca171e86d2d55fa42"
+      "trace_id": "695041d6147a4cb490023aed0e7021f5"
     },
     {
       "id": "reliability_02",
@@ -920,12 +920,12 @@
         "invalid_arguments"
       ],
       "turns": 2,
-      "latency_ms": 0.051,
+      "latency_ms": 0.059,
       "tool_calls": 1,
       "successful_tool_calls": 0,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "ba1a03dbfb42415ebdf5c2edc75ae253"
+      "trace_id": "640de803bd5a4af4a64272604197c3c1"
     },
     {
       "id": "reliability_03",
@@ -946,12 +946,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.393,
+      "latency_ms": 0.343,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "1b81717bd8304e2cb128dd867ec22f10"
+      "trace_id": "1467a710c8bb496a842fee527ab60fbe"
     },
     {
       "id": "reliability_04",
@@ -976,12 +976,12 @@
         "tool_exception"
       ],
       "turns": 2,
-      "latency_ms": 0.195,
+      "latency_ms": 0.24,
       "tool_calls": 1,
       "successful_tool_calls": 0,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "374bea24331a48d895e7128633835b74"
+      "trace_id": "1974a7b16ab14c17b5ce0b1925f39177"
     },
     {
       "id": "reliability_05",
@@ -1006,12 +1006,12 @@
         "tool_timeout"
       ],
       "turns": 2,
-      "latency_ms": 13.015,
+      "latency_ms": 5.278,
       "tool_calls": 1,
       "successful_tool_calls": 0,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "8f858f2e89f64bdb8e8964782f721297"
+      "trace_id": "8cdae643978e4b4390064ad04ed3005b"
     },
     {
       "id": "reliability_06",
@@ -1036,12 +1036,12 @@
         "repeated_tool_call"
       ],
       "turns": 2,
-      "latency_ms": 0.466,
+      "latency_ms": 0.412,
       "tool_calls": 1,
       "successful_tool_calls": 1,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "a3f5628c0e674a049fb7ebc89355ad88"
+      "trace_id": "8d47f467fe114fd6838787f06d61c11f"
     },
     {
       "id": "reliability_07",
@@ -1064,12 +1064,12 @@
       "expected_error_types": [],
       "actual_error_types": [],
       "turns": 2,
-      "latency_ms": 0.624,
+      "latency_ms": 0.543,
       "tool_calls": 2,
       "successful_tool_calls": 2,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "8dc7c5d0fa7c4ce3acfb3f6a1e597fc3"
+      "trace_id": "abb26c95b8bf4663801da5680eafb10c"
     },
     {
       "id": "reliability_08",
@@ -1096,12 +1096,12 @@
         "no_progress"
       ],
       "turns": 2,
-      "latency_ms": 0.351,
+      "latency_ms": 0.379,
       "tool_calls": 2,
       "successful_tool_calls": 2,
       "rag_recall_at_k": null,
       "retrieved_documents": [],
-      "trace_id": "6691774433e94a0b80f30cd358d01626"
+      "trace_id": "3ef41d2fef6142c38fce6fd668677141"
     }
   ]
 }

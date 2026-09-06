@@ -5,7 +5,8 @@ from __future__ import annotations
 from pathlib import Path
 
 from enterprise_support_agent.config import Settings
-from enterprise_support_agent.rag.retriever import PolicyRetriever
+from enterprise_support_agent.rag.knowledge_store import MultimodalKnowledgeStore
+from enterprise_support_agent.rag.retriever import CombinedKnowledgeRetriever, PolicyRetriever
 from enterprise_support_agent.tools.base import ToolDefinition
 from enterprise_support_agent.tools.calculator import calculate
 from enterprise_support_agent.tools.create_ticket import TicketStore
@@ -40,7 +41,8 @@ class ToolRegistry:
 
 def build_default_registry(settings: Settings, tickets_path: Path | None = None) -> ToolRegistry:
     orders = OrderRepository(settings.orders_path)
-    policy = PolicySearchTool(PolicyRetriever(settings.policies_path))
+    uploads = MultimodalKnowledgeStore(settings.knowledge_uploads_path)
+    policy = PolicySearchTool(CombinedKnowledgeRetriever(PolicyRetriever(settings.policies_path), uploads))
     tickets = TicketStore(tickets_path or settings.tickets_path)
     return ToolRegistry(
         [
@@ -61,6 +63,7 @@ def build_default_registry(settings: Settings, tickets_path: Path | None = None)
                 "Create a durable human-support ticket when automation cannot resolve the request or escalation is requested.",
                 CREATE_TICKET_SCHEMA,
                 tickets.create,
+                idempotent=False,
             ),
             ToolDefinition(
                 "calculator",

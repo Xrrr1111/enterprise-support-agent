@@ -45,12 +45,29 @@ def test_calculator_rejects_unsafe_or_unbounded_input(expression: str) -> None:
 
 
 def test_ticket_store_persists_required_fields(settings) -> None:
-    result = TicketStore(settings.tickets_path).create("Need help", "Manual review", "high")
+    result = TicketStore(settings.tickets_path).create("Need help", "Manual review", "high", "request-001")
     ticket = result["ticket"]
     persisted = json.loads(settings.tickets_path.read_text(encoding="utf-8"))
     assert ticket["ticket_id"].startswith("TKT-")
     assert persisted["priority"] == "high"
     assert persisted["created_at"].endswith("+00:00")
+    assert result["deduplicated"] is False
+
+
+def test_ticket_store_deduplicates_same_side_effect(settings) -> None:
+    store = TicketStore(settings.tickets_path)
+    first = store.create("Need help", "Manual review", "high", "request-001")
+    second = store.create("Need help", "Manual review", "high", "request-001")
+    assert second["deduplicated"] is True
+    assert first["ticket"]["ticket_id"] == second["ticket"]["ticket_id"]
+    assert len(settings.tickets_path.read_text(encoding="utf-8").splitlines()) == 1
+
+
+def test_ticket_store_rejects_reused_key_with_different_payload(settings) -> None:
+    store = TicketStore(settings.tickets_path)
+    store.create("Need help", "Manual review", "high", "request-001")
+    with pytest.raises(ValueError, match="different request"):
+        store.create("Different request", "Manual review", "high", "request-001")
 
 
 def test_schema_validation_rejects_missing_and_extra_arguments() -> None:
@@ -66,3 +83,9 @@ def test_policy_search_tool_pipeline(settings) -> None:
     assert result["results"][0]["document_id"] == "refund_policy"
     assert "context" in result
     assert result["embedding_provider"] == "local-hashing"
+
+
+def test_policy_search_returns_empty_for_unrelated_knowledge(settings) -> None:
+    result = PolicyRetriever(settings.policies_path).search("火星天气预报")
+    assert result["results"] == []
+    assert result["context"] == ""

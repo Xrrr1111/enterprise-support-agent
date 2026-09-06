@@ -1,0 +1,11 @@
+{
+  "project": "基于 Harness 的企业知识与客服 Agent",
+  "requirements": [
+    {"id": "ESA-REQ-01", "statement": "模型决策、工具观察和停止原因形成完整循环", "code": ["enterprise_support_agent/agent/loop.py", "enterprise_support_agent/agent/state.py"], "tests": ["tests/test_agent_loop.py"]},
+    {"id": "ESA-REQ-02", "statement": "工具注册、Schema 校验、超时、有限重试与无进展保护", "code": ["enterprise_support_agent/agent/harness.py", "enterprise_support_agent/tools/registry.py", "enterprise_support_agent/tools/schemas.py"], "tests": ["tests/test_harness.py"]},
+    {"id": "ESA-REQ-03", "statement": "TXT、Markdown、PDF、扫描 PDF 和图片进入可检索索引", "code": ["enterprise_support_agent/rag/knowledge_store.py"], "tests": ["tests/test_knowledge_store.py"]},
+    {"id": "ESA-REQ-04", "statement": "检索结果保留文件、页码并在删除文档时同步清理索引", "code": ["enterprise_support_agent/rag/knowledge_store.py", "enterprise_support_agent/agent/state.py"], "tests": ["tests/test_knowledge_store.py", "tests/test_state.py"]},
+    {"id": "ESA-REQ-05", "statement": "产生副作用的工单工具使用幂等键防重", "code": ["enterprise_support_agent/tools/create_ticket.py", "enterprise_support_agent/tools/schemas.py"], "tests": ["tests/test_tools.py"]},
+    {"id": "ESA-REQ-06", "statement": "网页可运行任务、上传和删除资料、查看来源与轨迹", "code": ["enterprise_support_agent/web.py"], "tests": ["tests/test_web.py", "tests/test_uploaded_knowledge_agent.py"]}
+  ]
+}

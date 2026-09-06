@@ -16,6 +16,12 @@ def test_mock_model_runs_order_policy_chain(settings) -> None:
         "For ORD-1002, explain the shipping policy"
     )
     assert [item.tool_name for item in state.tool_history] == ["query_order", "search_policy"]
+
+
+def test_mock_model_understands_chinese_delivery_policy_request(settings) -> None:
+    state = EnterpriseSupportAgent(settings, trace_enabled=False).run("检查订单 ORD-1002，并解释配送政策")
+    assert [item.tool_name for item in state.tool_history] == ["query_order", "search_policy"]
+    assert state.to_dict()["sources"]
     assert state.turn_count == 3
     assert state.stop_reason == "completed"
 

@@ -68,11 +68,11 @@ class ToolHarness:
                 future.cancel()
                 error: BaseException = TimeoutError(f"Tool exceeded {self.timeout_seconds:.3f}s timeout")
                 error_type = "tool_timeout"
-                retryable = True
+                retryable = tool.idempotent
             except BaseException as caught:  # boundary converts failures into observations
                 error = caught
                 error_type = "tool_exception"
-                retryable = isinstance(caught, tool.retryable_exceptions)
+                retryable = tool.idempotent and isinstance(caught, tool.retryable_exceptions)
             finally:
                 executor.shutdown(wait=False, cancel_futures=True)
 
