@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import io
+import sys
 
 import pytest
 from PIL import Image, ImageDraw, ImageFont
@@ -40,7 +41,7 @@ def test_pdf_text_keeps_page_source(tmp_path) -> None:
 
 def test_image_uses_real_ocr_pipeline(tmp_path) -> None:
     image = Image.new("RGB", (760, 180), "white")
-    font = ImageFont.truetype("arial.ttf", 48)
+    font = ImageFont.truetype("arial.ttf" if sys.platform == "win32" else "DejaVuSans.ttf", 48)
     ImageDraw.Draw(image).text((30, 45), "REFUND POLICY 30 DAYS", fill="black", font=font)
     stream = io.BytesIO()
     image.save(stream, format="PNG")
